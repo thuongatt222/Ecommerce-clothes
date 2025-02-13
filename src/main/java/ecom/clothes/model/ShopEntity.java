@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tbl_shops")
-public class ShopEntity {
+public class ShopEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_id")
-    private Integer shopId;
+    private Long shopId;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

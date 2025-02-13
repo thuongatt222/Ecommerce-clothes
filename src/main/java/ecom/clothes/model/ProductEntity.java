@@ -10,11 +10,11 @@ import java.util.List;
 @Table(name = "tbl_products")
 @Getter
 @Setter
-public class ProductEntity {
+public class ProductEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 
     @Column(name = "title", nullable = false)
     private String title;

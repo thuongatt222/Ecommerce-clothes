@@ -6,11 +6,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbl_permissions")
-public class PermissionEntity {
+public class PermissionEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "permission_id")
-    private int permissionId;
+    private Long permissionId;
 
     private String permissionName;
 }

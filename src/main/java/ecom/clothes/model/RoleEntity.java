@@ -6,11 +6,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbl_roles")
-public class RoleEntity {
+public class RoleEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private int roleId;
+    private Long roleId;
 
     private String roleName;
 }

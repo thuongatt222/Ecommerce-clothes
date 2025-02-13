@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tbl_product_details")
-public class ProductDetailEntity {
+public class ProductDetailEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_detail_id")
-    private Integer productDetailId;
+    private Long productDetailId;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")

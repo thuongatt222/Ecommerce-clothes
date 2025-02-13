@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_brands")
-public class BrandsEntity {
+public class BrandsEntity extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brand_id")
-    private int brandId;
+    private Long brandId;
     private String brandName;
     private String brandImage;
 }

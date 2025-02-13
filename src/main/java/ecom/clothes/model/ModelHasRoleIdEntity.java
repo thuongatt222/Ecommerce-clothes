@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 @Embeddable
 public class ModelHasRoleIdEntity implements Serializable {
-    private int roleId;
-    private int modelId;
+    private Long roleId;
+    private Long modelId;
 
     // Constructors, Getters, Setters, equals(), hashCode()
 }

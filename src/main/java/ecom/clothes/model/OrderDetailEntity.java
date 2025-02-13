@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 @Table(name = "tbl_order_details")
 @Getter
 @Setter
-public class OrderDetailEntity {
+public class OrderDetailEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")

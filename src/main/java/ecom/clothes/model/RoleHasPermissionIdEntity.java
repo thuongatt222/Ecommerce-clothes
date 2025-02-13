@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 @Embeddable
 public class RoleHasPermissionIdEntity implements Serializable {
-    private int roleId;
-    private int permissionId;
+    private Long roleId;
+    private Long permissionId;
 
     // Constructors, Getters, Setters, equals(), hashCode()
 }

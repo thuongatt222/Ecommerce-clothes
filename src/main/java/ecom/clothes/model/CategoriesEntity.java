@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_categories")
-public class CategoriesEntity {
+public class CategoriesEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private int categoryId;
+    private Long categoryId;
     private String categoryNameLevel1;
     private String categoryNameLevel2;
     private String categoryNameLevel3;
