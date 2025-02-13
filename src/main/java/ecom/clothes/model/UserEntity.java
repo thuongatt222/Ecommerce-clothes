@@ -1,37 +1,62 @@
 package ecom.clothes.model;
 
+import ecom.clothes.common.Gender;
 import ecom.clothes.common.UserStatus;
+import ecom.clothes.common.UserType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "tbl_users")
-public class UserEntity {
+public class UserEntity extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Long id;
 
+    @Column(name = "username", unique = true, nullable = false, length = 50)
     private String username;
+
+    @Column(name = "password", length = 50)
     private String password;
+
+    @Column(name = "first_name", length = 50)
     private String firstName;
+
+    @Column(name = "last_name", length = 50)
     private String lastName;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "phone", length = 15, unique = true)
     private String phone;
+
+    @Column(name = "avatar")
     private String avatar;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<AddressEntity> addresses;
+    @Column(name = "last_login")
+    private Date lastLogin;
 
-    private LocalDateTime lastLogin;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private ShopEntity shop;
-
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    private Gender gender;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 }

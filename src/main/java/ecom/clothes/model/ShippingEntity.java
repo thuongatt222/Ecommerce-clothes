@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_shipping")
-public class ShippingEntity {
+public class ShippingEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shipping_id")
-    private Integer shippingId;
+    private Long shippingId;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")

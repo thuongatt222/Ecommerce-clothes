@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_coupons")
-public class CouponEntity {
+public class CouponEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coupon_id")
-    private Integer couponId;
+    private Long couponId;
 
     @Column(name = "code", nullable = false, unique = true)
     private String code;

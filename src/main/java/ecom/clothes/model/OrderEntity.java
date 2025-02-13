@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_orders")
-public class OrderEntity {
+public class OrderEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Integer orderId;
+    private Long orderId;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate;

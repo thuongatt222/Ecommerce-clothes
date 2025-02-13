@@ -22,3 +22,11 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+openapi:
+  service:
+    api-docs: Ecommerce-clothes
+    title: Ecommerce-clothes
+    version: v1.0.0
+    server: http://localhost:8080
+
+

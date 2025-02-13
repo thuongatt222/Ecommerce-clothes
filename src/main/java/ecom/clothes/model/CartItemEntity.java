@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_cart_items")
-public class CartItemEntity {
+public class CartItemEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
-    private Integer cartItemId;
+    private Long cartItemId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")

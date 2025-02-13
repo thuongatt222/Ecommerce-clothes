@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_payments")
-public class PaymentEntity {
+public class PaymentEntity extends Timestamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
-    private Integer paymentId;
+    private Long paymentId;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
