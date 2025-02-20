@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  application:
+    name: backend-service
+  profiles:
+    active: @spring.profile.active@
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    root: INFO
+    web: INFO
