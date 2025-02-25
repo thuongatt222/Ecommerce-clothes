@@ -7,10 +7,12 @@ import ecom.clothes.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name = "User Controller")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -40,7 +43,7 @@ public class UserController {
 
     @Operation(summary = "Thông tin người dùng")
     @GetMapping("/{userId}")
-    public Map<String, Object> getUser(@PathVariable Long userId) {
+    public Map<String, Object> getUser(@PathVariable @Min(value = 1, message = "Id phải lớn hơn hoặc bằng 1") Long userId) {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("status", HttpStatus.OK.value());
         result.put("message", "User");
@@ -80,7 +83,7 @@ public class UserController {
 
     @Operation(summary = "Xóa thông tin người dùng")
     @DeleteMapping("/del")
-    public  ResponseEntity<Object> deleteUser(@Valid @RequestBody Long id){
+    public  ResponseEntity<Object> deleteUser(@Min(value = 1, message = "Id phải lớn hơn hoặc bằng 1") @RequestBody Long id){
         Map<String, Object> response = new LinkedHashMap<>();
         userService.delete(id);
         response.put("status", HttpStatus.NO_CONTENT.value());

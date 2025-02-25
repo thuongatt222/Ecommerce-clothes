@@ -37,21 +37,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPageResponse getUsers(String keyword, String sort, int page, int size) {
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "id");
-        if (StringUtils.hasLength(sort)){
+        if (StringUtils.hasLength(sort)) {
             Pattern pattern = Pattern.compile("(\\w+?)(:)(.*)");
             Matcher matcher = pattern.matcher(sort);
-            if (matcher.find()){
+            if (matcher.find()) {
                 String columnName = matcher.group(1);
-                if (matcher.group(3).equalsIgnoreCase("asc")){
+                if (matcher.group(3).equalsIgnoreCase("asc")) {
                     order = new Sort.Order(Sort.Direction.ASC, columnName);
-                }else {
+                } else {
                     order = new Sort.Order(Sort.Direction.DESC, columnName);
                 }
             }
         }
 
         int pageNo = 0;
-        if (page > 0){
+        if (page > 0) {
             pageNo = page - 1;
         }
 
@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService {
 
         Page<UserEntity> userSearchList = null;
 
-        if(StringUtils.hasLength(keyword)){
+        if (StringUtils.hasLength(keyword)) {
             keyword = "%" + keyword + "%";
             userSearchList = userRepository.searchByKeyword(keyword, pageable);
-        }else {
+        } else {
             userSearchList = userRepository.findAll(pageable);
         }
 
@@ -134,6 +134,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserUpdateRequest request) {
+
+        UserEntity userByEmail = userRepository.findByEmail(request.getEmail());
+        if (userByEmail != null) {
+            throw new
+        }
+
         UserEntity user = userRepository.getReferenceById(request.getId());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());

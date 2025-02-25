@@ -3,6 +3,7 @@ package ecom.clothes.controller.request;
 import ecom.clothes.common.Gender;
 import ecom.clothes.common.UserStatus;
 import ecom.clothes.common.UserType;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserUpdateRequest implements Serializable {
+    @Min(value = 1, message = "Id phải lớn hơn hoặc bằng 1")
     private Long id;
     private String firstName;
     private String lastName;
