@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,6 +66,64 @@ public class GlobalException {
             errorResponse.setError("Invalid Data");
             errorResponse.setMessage(message);
         }
+
+        return errorResponse;
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = {@Content(mediaType = APPLICATION_JSON_VALUE,
+                            examples = @ExampleObject(
+                                    name = "401 Response",
+                                    summary = "Handle exception when user not authenticated",
+                                    value = """
+                                            {
+                                              "timestamp": "2023-10-19T06:07:35.321+00:00",
+                                              "status": 401,
+                                              "path": "/api/v1/...",
+                                              "error": "Unauthorized",
+                                              "message": "Username or password is incorrect"
+                                            }
+                                            """
+                            ))})
+    })
+    public ErrorResponse handleInternalAuthenticationServiceException(InternalAuthenticationServiceException e, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(new Date());
+        errorResponse.setPath(request.getDescription(false).replace("uri=", ""));
+        errorResponse.setStatus(UNAUTHORIZED.value());
+        errorResponse.setError(UNAUTHORIZED.getReasonPhrase());
+        errorResponse.setMessage("Username or password is incorrect");
+
+        return errorResponse;
+    }
+
+    @ExceptionHandler({ForBiddenException.class, AccessDeniedException.class})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "403", description = "Forbidden",
+                    content = {@Content(mediaType = APPLICATION_JSON_VALUE,
+                            examples = @ExampleObject(
+                                    name = "403 Response",
+                                    summary = "Handle exception when access forbidden",
+                                    value = """
+                                            {
+                                              "timestamp": "2023-10-19T06:07:35.321+00:00",
+                                              "status": 403,
+                                              "path": "/api/v1/...",
+                                              "error": "Forbidden",
+                                              "message": "{data} not found"
+                                            }
+                                            """
+                            ))})
+    })
+    public ErrorResponse handleAccessDeniedException(Exception e, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(new Date());
+        errorResponse.setPath(request.getDescription(false).replace("uri=", ""));
+        errorResponse.setStatus(FORBIDDEN.value());
+        errorResponse.setError(FORBIDDEN.getReasonPhrase());
+        errorResponse.setMessage(e.getMessage());
 
         return errorResponse;
     }

@@ -29,4 +29,8 @@ openapi:
     version: v1.0.0
     server: http://localhost:8080
 
-
+jwt:
+  expiryMinutes: 60
+  expiryHours: 1
+  accessKey: ZkhUi2vh1/T8jai2Pf/cobaYKNt3s9BSpNiVxxDHFFc=
+  refreshKey: Y3/2suaJmXxK46fPNMZ45DsGATYokKTo9/3vKgbns1A=

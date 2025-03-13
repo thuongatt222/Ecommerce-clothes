@@ -7,6 +7,7 @@ import ecom.clothes.controller.request.UserPasswordRequest;
 import ecom.clothes.controller.request.UserUpdateRequest;
 import ecom.clothes.controller.response.UserPageResponse;
 import ecom.clothes.controller.response.UserResponse;
+import ecom.clothes.exception.InvalidDataException;
 import ecom.clothes.exception.ResourceNotFoundException;
 import ecom.clothes.model.UserEntity;
 import ecom.clothes.repositories.UserRepository;
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userByEmail = userRepository.findByEmail(request.getEmail());
         if (userByEmail != null) {
-            throw new
+            throw new InvalidDataException("Email đã tồn tại");
         }
 
         UserEntity user = userRepository.getReferenceById(request.getId());
