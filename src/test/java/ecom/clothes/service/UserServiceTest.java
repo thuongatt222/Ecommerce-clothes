@@ -1,6 +1,6 @@
 package ecom.clothes.service;
 
-import ecom.clothes.controller.response.UserPageResponse;
+import ecom.clothes.controller.response.User.UserPageResponse;
 import ecom.clothes.model.UserEntity;
 import ecom.clothes.repositories.UserRepository;
 import ecom.clothes.service.impl.UserServiceImpl;

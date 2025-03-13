@@ -5,8 +5,8 @@ import ecom.clothes.common.UserType;
 import ecom.clothes.controller.request.UserCreateRequest;
 import ecom.clothes.controller.request.UserPasswordRequest;
 import ecom.clothes.controller.request.UserUpdateRequest;
-import ecom.clothes.controller.response.UserPageResponse;
-import ecom.clothes.controller.response.UserResponse;
+import ecom.clothes.controller.response.User.UserPageResponse;
+import ecom.clothes.controller.response.User.UserResponse;
 import ecom.clothes.exception.InvalidDataException;
 import ecom.clothes.exception.ResourceNotFoundException;
 import ecom.clothes.model.UserEntity;
@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

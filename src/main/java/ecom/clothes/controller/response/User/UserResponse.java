@@ -1,4 +1,4 @@
-package ecom.clothes.controller.response;
+package ecom.clothes.controller.response.User;
 
 import ecom.clothes.common.Gender;
 import ecom.clothes.common.UserStatus;

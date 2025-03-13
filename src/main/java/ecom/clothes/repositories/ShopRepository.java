@@ -1,4 +1,7 @@
 package ecom.clothes.repositories;
 
-public interface ShopRepository {
+import ecom.clothes.model.ShopEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ShopRepository extends JpaRepository<ShopEntity, Long> {
 }

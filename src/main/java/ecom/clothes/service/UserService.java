@@ -3,11 +3,8 @@ package ecom.clothes.service;
 import ecom.clothes.controller.request.UserCreateRequest;
 import ecom.clothes.controller.request.UserPasswordRequest;
 import ecom.clothes.controller.request.UserUpdateRequest;
-import ecom.clothes.controller.response.UserPageResponse;
-import ecom.clothes.controller.response.UserResponse;
-import ecom.clothes.model.UserEntity;
-
-import java.util.List;
+import ecom.clothes.controller.response.User.UserPageResponse;
+import ecom.clothes.controller.response.User.UserResponse;
 
 public interface UserService {
 

@@ -1,8 +1,8 @@
-package ecom.clothes.controller.response;
+package ecom.clothes.controller.response.User;
 
+import ecom.clothes.controller.response.GlobalResponse;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPageResponse extends GlobalResponse{
+public class UserPageResponse extends GlobalResponse {
     private List<UserResponse> users;
 }
