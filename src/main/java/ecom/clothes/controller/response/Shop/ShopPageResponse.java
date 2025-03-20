@@ -1,5 +1,6 @@
 package ecom.clothes.controller.response.Shop;
 
+import ecom.clothes.controller.response.GlobalResponse;
 import lombok.*;
 
 import java.util.List;
@@ -9,6 +10,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShopPageResponse {
+public class ShopPageResponse extends GlobalResponse {
     private List<ShopResponse> shops;
 }

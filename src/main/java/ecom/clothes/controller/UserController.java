@@ -1,8 +1,8 @@
 package ecom.clothes.controller;
 
-import ecom.clothes.controller.request.UserCreateRequest;
-import ecom.clothes.controller.request.UserPasswordRequest;
-import ecom.clothes.controller.request.UserUpdateRequest;
+import ecom.clothes.controller.request.User.UserCreateRequest;
+import ecom.clothes.controller.request.User.UserPasswordRequest;
+import ecom.clothes.controller.request.User.UserUpdateRequest;
 import ecom.clothes.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

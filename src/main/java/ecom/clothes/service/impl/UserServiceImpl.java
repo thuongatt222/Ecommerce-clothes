@@ -2,9 +2,9 @@ package ecom.clothes.service.impl;
 
 import ecom.clothes.common.UserStatus;
 import ecom.clothes.common.UserType;
-import ecom.clothes.controller.request.UserCreateRequest;
-import ecom.clothes.controller.request.UserPasswordRequest;
-import ecom.clothes.controller.request.UserUpdateRequest;
+import ecom.clothes.controller.request.User.UserCreateRequest;
+import ecom.clothes.controller.request.User.UserPasswordRequest;
+import ecom.clothes.controller.request.User.UserUpdateRequest;
 import ecom.clothes.controller.response.User.UserPageResponse;
 import ecom.clothes.controller.response.User.UserResponse;
 import ecom.clothes.exception.InvalidDataException;

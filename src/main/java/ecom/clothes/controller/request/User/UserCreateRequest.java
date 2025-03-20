@@ -1,4 +1,4 @@
-package ecom.clothes.controller.request;
+package ecom.clothes.controller.request.User;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

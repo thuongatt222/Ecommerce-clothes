@@ -1,4 +1,4 @@
-package ecom.clothes.controller.request;
+package ecom.clothes.controller.request.User;
 
 import ecom.clothes.common.Gender;
 import ecom.clothes.common.UserStatus;
