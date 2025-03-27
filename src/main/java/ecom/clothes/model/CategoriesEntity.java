@@ -3,12 +3,6 @@ package ecom.clothes.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import ecom.clothes.controller.response.Categories.CategoriesResponse;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import java.util.ArrayList;
-import java.util.List;
 
 @Table(name = "tbl_categories")
 @Getter
@@ -27,7 +21,8 @@ public class CategoriesEntity {
     @Column(name = "category_image")
     private String categoryImage;
 
-    @Column(name = "sub_category_id")
-    private Long subCategoryId;
+    @ManyToOne
+    @JoinColumn(name = "sub_category_id", referencedColumnName = "category_id")
+    private CategoriesEntity subCategoryId;
 
 }

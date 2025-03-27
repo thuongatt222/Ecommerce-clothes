@@ -1,5 +1,6 @@
 package ecom.clothes.controller.response.Categories;
 
+import ecom.clothes.model.CategoriesEntity;
 import lombok.*;
 
 @Getter
@@ -12,5 +13,5 @@ public class CategoriesResponse {
     private Long categoryId;
     private String categoryName;
     private String categoryImage;
-    private Long subCategoryId;
+    private CategoriesEntity subCategoryId;
 }

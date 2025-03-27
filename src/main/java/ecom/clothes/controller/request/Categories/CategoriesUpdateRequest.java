@@ -1,6 +1,7 @@
 package ecom.clothes.controller.request.Categories;
 
 import ecom.clothes.controller.response.Categories.CategoriesResponse;
+import ecom.clothes.model.CategoriesEntity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -20,5 +21,5 @@ public class CategoriesUpdateRequest {
 
     private String categoryImage;
 
-    private Long subCategoriesId;
+    private CategoriesEntity subCategoriesId;
 }

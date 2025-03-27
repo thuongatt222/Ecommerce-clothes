@@ -4,7 +4,6 @@ import ecom.clothes.controller.request.Categories.CategoriesCreateRequest;
 import ecom.clothes.controller.request.Categories.CategoriesUpdateRequest;
 import ecom.clothes.controller.response.Categories.CategoriesPageResponse;
 import ecom.clothes.controller.response.Categories.CategoriesResponse;
-import ecom.clothes.controller.response.Shop.ShopResponse;
 import ecom.clothes.exception.InvalidDataException;
 import ecom.clothes.exception.ResourceNotFoundException;
 import ecom.clothes.model.CategoriesEntity;
