@@ -18,10 +18,10 @@ public class CategoriesEntity {
     @Column(name = "category_name", nullable = false)
     private String categoryName;
 
-    @Column(name = "category_image")
+    @Column(name = "category_image", columnDefinition = "TEXT")
     private String categoryImage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_category_id", referencedColumnName = "category_id")
     private CategoriesEntity subCategoryId;
 

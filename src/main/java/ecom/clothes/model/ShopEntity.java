@@ -16,7 +16,7 @@ public class ShopEntity extends Timestamp {
     @Column(name = "shop_id")
     private Long shopId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserEntity user;
 
