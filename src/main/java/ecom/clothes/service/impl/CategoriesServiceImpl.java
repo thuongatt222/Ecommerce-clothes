@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class CategoriesServiceImpl implements CategoriesService {
 
-    private CategoriesRepository categoriesRepository;
+    private final CategoriesRepository categoriesRepository;
 
     @Override
     public CategoriesPageResponse getCategories(String keyword, String sort, int page, int size) {
@@ -52,9 +52,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 
         Pageable pageable = PageRequest.of(pageNo, size, Sort.by(order));
 
-        Page<CategoriesEntity> categoriesSearchList = null;
+        Page<CategoriesEntity> categoriesSearchList;
 
-        if(StringUtils.hasLength(keyword)) {
+        if (StringUtils.hasLength(keyword)) {
             keyword = "%" + keyword + "%";
             categoriesSearchList = categoriesRepository.findByCategoryName(keyword, pageable);
         } else {
@@ -76,30 +76,53 @@ public class CategoriesServiceImpl implements CategoriesService {
                 .build();
     }
 
-
     @Override
     public Long addCategory(CategoriesCreateRequest request) {
         CategoriesEntity categoriesEntity = new CategoriesEntity();
         categoriesEntity.setCategoryName(request.getCategoryName());
         categoriesEntity.setCategoryImage(request.getCategoryImage());
-        categoriesEntity.setSubCategoryId(request.getSubCategoriesId());
+
+        // Xử lý subCategoryId
+        Long subCategoryId = request.getSubCategoriesId();
+        if (subCategoryId != null) {
+            CategoriesEntity subCategory = categoriesRepository.findById(subCategoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Subcategory with ID " + subCategoryId + " not found"));
+            categoriesEntity.setSubCategoryId(subCategory);
+        } else {
+            categoriesEntity.setSubCategoryId(null); // Không có danh mục con
+        }
+
         categoriesRepository.save(categoriesEntity);
         return categoriesEntity.getCategoryId();
     }
 
-
     @Override
     public void updateCategory(CategoriesUpdateRequest request) {
         CategoriesEntity categoriesEntity = categoriesRepository.findByCategoryNameIs(request.getCategoryName());
-        if (categoriesEntity.getCategoryName().equals(request.getCategoryName())) {
-            throw new InvalidDataException("The loai đã tồn tại");
+        if (categoriesEntity != null && !categoriesEntity.getCategoryName().equals(request.getCategoryName())) {
+            throw new InvalidDataException("Danh mục với tên " + request.getCategoryName() + " đã tồn tại");
         }
+
+        // Nếu không tìm thấy theo tên, tìm theo ID hoặc tạo mới logic phù hợp
+        if (categoriesEntity == null) {
+            throw new ResourceNotFoundException("Category not found for update");
+        }
+
         categoriesEntity.setCategoryName(request.getCategoryName());
         categoriesEntity.setCategoryImage(request.getCategoryImage());
-        categoriesEntity.setSubCategoryId(request.getSubCategoriesId());
+
+        // Xử lý subCategoryId
+        Long subCategoryId = request.getSubCategoriesId().getCategoryId();
+        if (subCategoryId != null) {
+            CategoriesEntity subCategory = categoriesRepository.findById(subCategoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Subcategory with ID " + subCategoryId + " not found"));
+            categoriesEntity.setSubCategoryId(subCategory);
+        } else {
+            categoriesEntity.setSubCategoryId(null); // Xóa liên kết nếu subCategoryId là null
+        }
+
         categoriesRepository.save(categoriesEntity);
     }
-
 
     @Override
     public void deleteCategory(Long id) {
@@ -127,6 +150,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     private CategoriesEntity getCategoryEntity(Long id) {
-        return categoriesRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        return categoriesRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
     }
 }
