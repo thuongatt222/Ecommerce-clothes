@@ -2,11 +2,14 @@ package ecom.clothes.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-
+@Data
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserCreateRequest implements Serializable {

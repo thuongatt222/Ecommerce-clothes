@@ -19,11 +19,14 @@ import java.util.Map;
 @Controller
 @RestController
 @RequestMapping("/user")
-@RequiredArgsConstructor
 @Tag(name = "User Controller")
 public class UserController {
 
-//    private final UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @Operation(summary = "Thêm người dùng", description = "Nhập username và password để thêm người dùng mới")
     @PostMapping("/add")
@@ -31,7 +34,7 @@ public class UserController {
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("status", HttpStatus.CREATED.value());
         response.put("message", "Thêm người dùng mới thành công");
-//        response.put("data", userService.save(req));
+        response.put("data", userService.save(request));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -39,7 +42,7 @@ public class UserController {
     @PutMapping("/upd")
     public ResponseEntity<Object> updateUser(@Valid @RequestBody UserUpdateRequest req) {
         Map<String, Object> response = new LinkedHashMap<>();
-//        userService.update(req);
+        userService.update(req);
         response.put("status", HttpStatus.ACCEPTED.value());
         response.put("message", "Sửa thông tin người dùng thành công");
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
@@ -49,7 +52,7 @@ public class UserController {
     @PatchMapping("/change-password")
     public ResponseEntity<Object> changePassword(@Valid @RequestBody UserPasswordRequest req) {
         Map<String, Object> response = new LinkedHashMap<>();
-//        userService.changePassword(req);
+        userService.changePassword(req);
         response.put("status", HttpStatus.ACCEPTED.value());
         response.put("message", "Đổi mật khẩu thành công");
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
@@ -59,7 +62,7 @@ public class UserController {
     @DeleteMapping("/del")
     public  ResponseEntity<Object> deleteUser(@Valid @RequestBody Long id){
         Map<String, Object> response = new LinkedHashMap<>();
-//        userService.delete(id);
+        userService.delete(id);
         response.put("status", HttpStatus.NO_CONTENT.value());
         response.put("message", "Xóa thông tin người dùng");
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);

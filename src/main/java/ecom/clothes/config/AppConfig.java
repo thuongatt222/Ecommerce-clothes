@@ -25,8 +25,16 @@ public class AppConfig {
 
     @Bean
     public WebSecurityCustomizer ignoreResources() {
-        return webSecurity -> webSecurity.ignoring()
-                .requestMatchers("/actuator/**", "/v3/**", "/webjars/**", "/swagger-ui/**", "/swagger-ui/swagger-initializer.js");
+        return web -> web.ignoring()
+                .requestMatchers(
+                        "/actuator/**",         // Bỏ qua bảo mật cho Actuator
+                        "/v3/**",               // Bỏ qua Swagger API v3
+                        "/webjars/**",          // Bỏ qua các tài nguyên tĩnh
+                        "/swagger-ui/**",       // Bỏ qua Swagger UI
+                        "/swagger-ui/*swagger-initializer.js", // JS khởi tạo Swagger
+                        "/swagger-ui.html" ,     // Bỏ qua file chính của Swagger UI
+                        "/favicon.ico"
+                );
     }
 
     @Bean

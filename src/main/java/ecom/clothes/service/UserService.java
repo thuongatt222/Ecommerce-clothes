@@ -13,11 +13,11 @@ public interface UserService {
 
     UserEntity getUser(Long id);
 
-//    void changePassword(UserPasswordRequest request);
-//
-//    Long save(UserCreateRequest request);
-//
-//    void update(UserUpdateRequest request);
-//
-//    void delete(Long id);
+    void changePassword(UserPasswordRequest request);
+
+    Long save(UserCreateRequest request);
+
+    void update(UserUpdateRequest request);
+
+    void delete(Long id);
 }
