@@ -69,7 +69,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         CategoriesEntity categoriesEntity = getCategoryEntity(id);
 
         return CategoriesResponse.builder()
-                .categoryId(categoriesEntity.getCategoryId())
+                .categoryId(categoriesEntity.getId())
                 .categoryName(categoriesEntity.getCategoryName())
                 .categoryImage(categoriesEntity.getCategoryImage())
                 .subCategoryId(categoriesEntity.getSubCategoryId())
@@ -93,7 +93,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         }
 
         categoriesRepository.save(categoriesEntity);
-        return categoriesEntity.getCategoryId();
+        return categoriesEntity.getId();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         categoriesEntity.setCategoryImage(request.getCategoryImage());
 
         // Xử lý subCategoryId
-        Long subCategoryId = request.getSubCategoriesId().getCategoryId();
+        Long subCategoryId = request.getSubCategoriesId().getId();
         if (subCategoryId != null) {
             CategoriesEntity subCategory = categoriesRepository.findById(subCategoryId)
                     .orElseThrow(() -> new ResourceNotFoundException("Subcategory with ID " + subCategoryId + " not found"));
@@ -132,7 +132,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     private CategoriesPageResponse getCategoriesPageResponse(int pageNo, int size, Page<CategoriesEntity> categoriesSearchList) {
         List<CategoriesResponse> categoriesResponses = categoriesSearchList.stream()
                 .map(category -> CategoriesResponse.builder()
-                        .categoryId(category.getCategoryId())
+                        .categoryId(category.getId())
                         .categoryName(category.getCategoryName())
                         .categoryImage(category.getCategoryImage())
                         .subCategoryId(category.getSubCategoryId())

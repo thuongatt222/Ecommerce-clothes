@@ -4,16 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table(name = "tbl_brands")
+import java.io.Serializable;
+
 @Entity
+@Table(name = "tbl_brand")
 @Getter
 @Setter
-public class BrandEntity {
+public class BrandEntity extends Timestamp implements Serializable {
 
     @Id
     @Column(name = "brand_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long brandId;
+    private Long id;
 
     @Column(name = "brand_name", nullable = false)
     private String brandName;

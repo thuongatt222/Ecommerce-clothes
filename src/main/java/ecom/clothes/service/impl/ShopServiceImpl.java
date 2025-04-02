@@ -69,7 +69,7 @@ public class ShopServiceImpl implements ShopService {
 
     private ShopPageResponse getShopPageResponse(int page, int size, Page<ShopEntity> shopSearchList) {
         List<ShopResponse> shopResponseList = shopSearchList.stream().map(shop -> ShopResponse.builder()
-                .shopId(shop.getShopId())
+                .shopId(shop.getId())
                 .shopName(shop.getShopName())
                 .shopDescription(shop.getShopDescription())
                 .shopBanner(shop.getShopBanner())
@@ -92,7 +92,7 @@ public class ShopServiceImpl implements ShopService {
         ShopEntity shop =  findByShopId(id);
 
         return ShopResponse.builder()
-                .shopId(shop.getShopId())
+                .shopId(shop.getId())
                 .shopName(shop.getShopName())
                 .shopDescription(shop.getShopDescription())
                 .shopBanner(shop.getShopBanner())
@@ -110,7 +110,7 @@ public class ShopServiceImpl implements ShopService {
         shop.setShopName(request.getShopName());
         shop.setUser(request.getUser());
         shopRepository.save(shop);
-        return shop.getShopId();
+        return shop.getId();
     }
 
     @Override

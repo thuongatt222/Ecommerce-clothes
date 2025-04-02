@@ -11,5 +11,5 @@ public interface BrandRepository extends JpaRepository<BrandEntity, Long> {
     @Query(value = "select b from BrandEntity b where lower(b.brandName) like :brandName")
     Page<BrandEntity> findByBrandName(String brandName, Pageable pageable);
 
-    BrandEntity findByName(String brandName);
+    BrandEntity findByBrandName(String brandName);
 }

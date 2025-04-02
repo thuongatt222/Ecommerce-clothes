@@ -7,7 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
-public abstract class Timestamp {
+public abstract class Timestamp  {
+
     @Column(name = "created_at")
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

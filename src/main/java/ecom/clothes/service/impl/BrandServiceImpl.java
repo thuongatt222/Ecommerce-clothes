@@ -68,7 +68,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandResponse getBrand(Long brandId) {
         BrandEntity brandEntity = getBrandEntity(brandId);
         return BrandResponse.builder()
-                .brandId(brandEntity.getBrandId())
+                .brandId(brandEntity.getId())
                 .brandName(brandEntity.getBrandName())
                 .brandImage(brandEntity.getBrandImage())
                 .categoriesEntity(brandEntity.getCategoryId())
@@ -82,12 +82,12 @@ public class BrandServiceImpl implements BrandService {
         brandEntity.setBrandImage(request.getBrandImage());
         brandEntity.setCategoryId(request.getCategoriesEntity());
         brandRepository.save(brandEntity);
-        return brandEntity.getBrandId();
+        return brandEntity.getId();
     }
 
     @Override
     public void updateBrand(BrandUpdateRequest request) {
-        BrandEntity brandEntity = brandRepository.findByName(request.getBrandName());
+        BrandEntity brandEntity = brandRepository.findByBrandName(request.getBrandName());
         if(brandEntity == null) {
             throw new ResourceNotFoundException("Brand not found");
         }
@@ -104,7 +104,7 @@ public class BrandServiceImpl implements BrandService {
 
     private BrandPageResponse getBrandPageResponse(int page, int size, Page<BrandEntity> brands) {
         List<BrandResponse> brandResponses = brands.stream().map(brandEntity -> BrandResponse.builder()
-                        .brandId(brandEntity.getBrandId())
+                        .brandId(brandEntity.getId())
                         .brandName(brandEntity.getBrandName())
                         .brandImage(brandEntity.getBrandImage())
                         .categoriesEntity(brandEntity.getCategoryId())

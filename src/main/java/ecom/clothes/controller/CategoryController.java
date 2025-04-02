@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,49 +29,37 @@ public class CategoryController {
     private final CategoriesService categoryService;
 
     // GET: Lấy danh sách danh mục
-    @GetMapping
+    @GetMapping("/list")
     @Operation(summary = "Lấy danh sách danh mục", description = "API lấy danh sách danh mục với hỗ trợ tìm kiếm, sắp xếp và phân trang")
-    @ApiResponses(value = {
-
-    })
-    public ResponseEntity<ApiResponse> getAllCategories(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
+    public ApiResponse getAllCategories(
             @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "id:asc") String sort) {
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         log.info("Fetching categories - page: {}, size: {}, keyword: {}, sort: {}", page, size, keyword, sort);
-        var categories = categoryService.getCategories(keyword, sort, page, size);
-        ApiResponse response = ApiResponse.builder()
+
+        return ApiResponse.builder()
                 .status(HttpStatus.OK.value())
-                .message("Danh sách danh mục")
-                .data(categories)
+                .message("List categories")
+                .data(categoryService.getCategories(keyword, sort, page, size))
                 .build();
-        return ResponseEntity.ok(response);
     }
 
-    // GET: Lấy chi tiết danh mục theo ID
     @GetMapping("/{id}")
     @Operation(summary = "Lấy chi tiết danh mục", description = "API lấy chi tiết một danh mục theo ID")
-    @ApiResponses(value = {
-
-    })
-    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id) {
+    public ApiResponse getCategoryById(@PathVariable @Min(value = 1, message = "lon hon hoac bang 1") Long id) {
         log.info("Fetching category with id: {}", id);
-        var category = categoryService.getCategory(id);
-        ApiResponse response = ApiResponse.builder()
+
+        return ApiResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Chi tiết danh mục")
-                .data(category)
+                .data(categoryService.getCategory(id))
                 .build();
-        return ResponseEntity.ok(response);
     }
 
     // POST: Thêm mới danh mục
     @PostMapping("/add")
     @Operation(summary = "Thêm mới danh mục", description = "API thêm mới một danh mục")
-    @ApiResponses(value = {
-
-    })
     public ResponseEntity<ApiResponse> createNewCategory(@Valid @RequestBody CategoriesCreateRequest request) {
         log.info("Creating new category with name: {}", request.getCategoryName());
         Long categoryId = categoryService.addCategory(request);
