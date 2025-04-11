@@ -69,7 +69,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         CategoriesEntity categoriesEntity = getCategoryEntity(id);
 
         return CategoriesResponse.builder()
-                .categoryId(categoriesEntity.getCategoryId())
+                .categoryId(categoriesEntity.getId())
                 .categoryName(categoriesEntity.getCategoryName())
                 .categoryImage(categoriesEntity.getCategoryImage())
                 .subCategoryId(categoriesEntity.getSubCategoryId())
@@ -82,23 +82,40 @@ public class CategoriesServiceImpl implements CategoriesService {
         CategoriesEntity categoriesEntity = new CategoriesEntity();
         categoriesEntity.setCategoryName(request.getCategoryName());
         categoriesEntity.setCategoryImage(request.getCategoryImage());
-        categoriesEntity.setSubCategoryId(request.getSubCategoriesId());
+
+        // Tìm kiếm subCategoryId nếu có
+        if (request.getSubCategoriesId() != null) {
+            CategoriesEntity subCategory = categoriesRepository.findById(request.getSubCategoriesId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Sub-category not found"));
+            categoriesEntity.setSubCategoryId(subCategory);
+        }
+
         categoriesRepository.save(categoriesEntity);
-        return categoriesEntity.getCategoryId();
+        return categoriesEntity.getId();
     }
+
 
 
     @Override
     public void updateCategory(CategoriesUpdateRequest request) {
         CategoriesEntity categoriesEntity = categoriesRepository.findByCategoryNameIs(request.getCategoryName());
-        if (categoriesEntity.getCategoryName().equals(request.getCategoryName())) {
+        if (categoriesEntity != null && !categoriesEntity.getId().equals(request.getCategoryId())) {
             throw new InvalidDataException("The loai đã tồn tại");
         }
+
         categoriesEntity.setCategoryName(request.getCategoryName());
         categoriesEntity.setCategoryImage(request.getCategoryImage());
-        categoriesEntity.setSubCategoryId(request.getSubCategoriesId());
+
+        // Tìm kiếm subCategoryId nếu có
+        if (request.getSubCategoriesId() != null) {
+            CategoriesEntity subCategory = categoriesRepository.findById(request.getSubCategoriesId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Sub-category not found"));
+            categoriesEntity.setSubCategoryId(subCategory);
+        }
+
         categoriesRepository.save(categoriesEntity);
     }
+
 
 
     @Override
@@ -109,7 +126,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     private CategoriesPageResponse getCategoriesPageResponse(int pageNo, int size, Page<CategoriesEntity> categoriesSearchList) {
         List<CategoriesResponse> categoriesResponses = categoriesSearchList.stream()
                 .map(category -> CategoriesResponse.builder()
-                        .categoryId(category.getCategoryId())
+                        .categoryId(category.getId())
                         .categoryName(category.getCategoryName())
                         .categoryImage(category.getCategoryImage())
                         .subCategoryId(category.getSubCategoryId())

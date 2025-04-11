@@ -10,6 +10,7 @@ import ecom.clothes.exception.ResourceNotFoundException;
 import ecom.clothes.model.ShopEntity;
 import ecom.clothes.model.UserEntity;
 import ecom.clothes.repositories.ShopRepository;
+import ecom.clothes.repositories.UserRepository;
 import ecom.clothes.service.ShopService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -69,7 +71,7 @@ public class ShopServiceImpl implements ShopService {
 
     private ShopPageResponse getShopPageResponse(int page, int size, Page<ShopEntity> shopSearchList) {
         List<ShopResponse> shopResponseList = shopSearchList.stream().map(shop -> ShopResponse.builder()
-                .shopId(shop.getShopId())
+                .shopId(shop.getId())
                 .shopName(shop.getShopName())
                 .shopDescription(shop.getShopDescription())
                 .shopBanner(shop.getShopBanner())
@@ -92,7 +94,7 @@ public class ShopServiceImpl implements ShopService {
         ShopEntity shop =  findByShopId(id);
 
         return ShopResponse.builder()
-                .shopId(shop.getShopId())
+                .shopId(shop.getId())
                 .shopName(shop.getShopName())
                 .shopDescription(shop.getShopDescription())
                 .shopBanner(shop.getShopBanner())
@@ -102,16 +104,27 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Long save(ShopCreateRequest request) {
+        // Kiểm tra xem cửa hàng đã tồn tại với tên này chưa
         ShopEntity checkShopName = shopRepository.findByShopNameIs(request.getShopName());
         if (checkShopName != null) {
             throw new ResourceNotFoundException("Shop name already exists");
         }
+
+        // Tạo một ShopEntity mới và gán giá trị từ request
         ShopEntity shop = new ShopEntity();
         shop.setShopName(request.getShopName());
-        shop.setUser(request.getUser());
+
+        // Kiểm tra User trong request, đảm bảo User đã tồn tại
+        UserEntity user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        shop.setUser(user);
+
+        // Lưu shop vào repository
         shopRepository.save(shop);
-        return shop.getShopId();
+
+        return shop.getId(); // Trả về ID của shop vừa tạo
     }
+
 
     @Override
     public void update(ShopUpdateRequest request) {

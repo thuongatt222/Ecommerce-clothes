@@ -6,7 +6,9 @@ import ecom.clothes.controller.response.Brand.BrandPageResponse;
 import ecom.clothes.controller.response.Brand.BrandResponse;
 import ecom.clothes.exception.ResourceNotFoundException;
 import ecom.clothes.model.BrandEntity;
+import ecom.clothes.model.CategoriesEntity;
 import ecom.clothes.repositories.BrandRepository;
+import ecom.clothes.repositories.CategoriesRepository;
 import ecom.clothes.service.BrandService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ import java.util.regex.Pattern;
 public class BrandServiceImpl implements BrandService {
 
     private final BrandRepository brandRepository;
+    private final CategoriesRepository categoriesRepository;
 
     @Override
     public BrandPageResponse getAllBrands(String keyword, String sort, int page, int size) {
@@ -68,7 +71,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandResponse getBrand(Long brandId) {
         BrandEntity brandEntity = getBrandEntity(brandId);
         return BrandResponse.builder()
-                .brandId(brandEntity.getBrandId())
+                .brandId(brandEntity.getId())
                 .brandName(brandEntity.getBrandName())
                 .brandImage(brandEntity.getBrandImage())
                 .categoriesEntity(brandEntity.getCategoryId())
@@ -78,22 +81,35 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Long saveBrand(BrandCreateRequest request) {
         BrandEntity brandEntity = new BrandEntity();
+
+        // Lấy Category từ database dựa trên categoryId
+        CategoriesEntity category = categoriesRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
         brandEntity.setBrandName(request.getBrandName());
         brandEntity.setBrandImage(request.getBrandImage());
-        brandEntity.setCategoryId(request.getCategoriesEntity());
+        brandEntity.setCategoryId(category); // Gán object Category thay vì chỉ ID
+
         brandRepository.save(brandEntity);
-        return brandEntity.getBrandId();
+        return brandEntity.getId(); // Trả về ID của Brand vừa lưu
     }
+
 
     @Override
     public void updateBrand(BrandUpdateRequest request) {
-        BrandEntity brandEntity = brandRepository.findByName(request.getBrandName());
-        if(brandEntity == null) {
+        BrandEntity brandEntity = brandRepository.findByBrandNameIs(request.getBrandName());
+        if (brandEntity == null) {
             throw new ResourceNotFoundException("Brand not found");
         }
+
+        // Tìm category theo ID
+        CategoriesEntity category = categoriesRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
         brandEntity.setBrandName(request.getBrandName());
         brandEntity.setBrandImage(request.getBrandImage());
-        brandEntity.setCategoryId(request.getCategoriesEntity());
+        brandEntity.setCategoryId(category);
+
         brandRepository.save(brandEntity);
     }
 
@@ -104,7 +120,7 @@ public class BrandServiceImpl implements BrandService {
 
     private BrandPageResponse getBrandPageResponse(int page, int size, Page<BrandEntity> brands) {
         List<BrandResponse> brandResponses = brands.stream().map(brandEntity -> BrandResponse.builder()
-                        .brandId(brandEntity.getBrandId())
+                        .brandId(brandEntity.getId())
                         .brandName(brandEntity.getBrandName())
                         .brandImage(brandEntity.getBrandImage())
                         .categoriesEntity(brandEntity.getCategoryId())

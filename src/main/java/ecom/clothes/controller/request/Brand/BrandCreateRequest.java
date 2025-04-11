@@ -9,5 +9,5 @@ public class BrandCreateRequest {
     @NotBlank(message = "Bat buoc phai co ten thuong hieu")
     private String brandName;
     private String brandImage;
-    private CategoriesEntity categoriesEntity;
+    private Long categoryId;
 }

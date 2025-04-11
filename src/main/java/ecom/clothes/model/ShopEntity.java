@@ -5,16 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name = "shops")
+@Table(name = "tbl_shops")
 @Getter
 @Setter
 public class ShopEntity extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_id")
-    private Long shopId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
@@ -31,4 +32,7 @@ public class ShopEntity extends Timestamp {
 
     @Column(name = "shop_rating", precision = 3, scale = 2)
     private BigDecimal shopRating;
+
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    private List<ProductEntity> products;
 }

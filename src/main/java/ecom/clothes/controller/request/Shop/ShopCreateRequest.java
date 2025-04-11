@@ -13,5 +13,5 @@ public class ShopCreateRequest {
     private String shopName;
 
     @NotBlank(message = "Id người dùng không được để trống")
-    private UserEntity user;
+    private Long userId;
 }

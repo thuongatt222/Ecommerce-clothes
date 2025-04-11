@@ -16,5 +16,5 @@ public class CategoriesCreateRequest {
 
     private String categoryImage;
 
-    private CategoriesEntity subCategoriesId;
+    private Long subCategoriesId;
 }
